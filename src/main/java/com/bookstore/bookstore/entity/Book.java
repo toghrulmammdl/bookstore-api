@@ -5,15 +5,19 @@ import com.bookstore.bookstore.enums.LanguageCode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "books")
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book extends BaseEntity{
@@ -62,4 +66,29 @@ public class Book extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<WishlistItem> wishlistItems = new ArrayList<>();
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CartItem> cartItems = new ArrayList<>();
+
+    @Column(nullable = false)
+    private int stockQuantity;
+
+    @Column(nullable = false)
+    private int totalSoldQuantity = 0;
+
+    @Column(nullable = false)
+    private int monthlySoldQuantity = 0;
+
+    @Column(nullable = false)
+    private Long ratingCount = 0L;
+
+    @Column(nullable = false, precision = 3, scale = 2)
+    private BigDecimal averageRating = BigDecimal.ZERO;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
 }
+
