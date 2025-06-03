@@ -27,8 +27,8 @@ public class AuthService {
         if(userRepository.findByEmail(request.getEmail()).isPresent()){
             throw new RuntimeException("Not Registered: Password, Email or Phone Number is incorrect or already taken");
         }
-        if(request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty() &&             userRepository.findByPhoneNumber(request.getPhoneNumber()).isPresent()){
-            System.out.println("Salam");
+        if(request.getPhoneNumber() != null && !request.getPhoneNumber().isEmpty() && userRepository.findByPhoneNumber(request.getPhoneNumber()).isPresent()){
+            System.out.println("");
         }
 
         User user = new User();
